@@ -1,12 +1,7 @@
 /// <reference types="cypress" />
 
-// const config = require('cypress.config')
-// const server = config.env
-
 let userName = '';
 let password =''
-let randomString1 = '';
-let randomString2 = '';
 let newAccountNumber = '';
 
 // Utility function to generate a random string
@@ -26,9 +21,6 @@ describe('Parabank Test', () => {
             userName = `usr${randomString1}`;
             password = `pwd${randomString2}`;
 
-            cy.log(userName);
-            cy.log(password);
-
             // Navigate to the registration page
             cy.visit('http://localhost:8080/parabank/index.htm');
             cy.get('#loginPanel > :nth-child(3) > a').click();
@@ -47,8 +39,6 @@ describe('Parabank Test', () => {
             cy.get('#repeatedPassword').type(password);
 
             cy.get('[colspan="2"] > .button').click();
-
-            // Assertions for the registration success
             cy.get('.title').should('have.text', `Welcome ${userName}`);
         });
     });
@@ -105,7 +95,7 @@ describe('Parabank Test', () => {
                     const totalRegex = /Total\s+\$([\d.,]+)/;
                     const totalMatch = totalAmountText.match(totalRegex);
                     if (totalMatch && totalMatch[1]) {
-                        totalAmount = totalMatch[1]; // Access the captured group
+                        totalAmount = totalMatch[1];
                         cy.log('Total Value Amount:', totalAmount);
                     } else {
                         cy.log('Total Value Amount not found.');
@@ -215,7 +205,6 @@ describe('Parabank Test', () => {
                     expect(response.body[0].description).to.eq(`Bill Payment to Steve`)
                     expect(response.body[0].type).to.eq('Debit');
                     expect(response.status).to.eq(200);
-                    // Add more assertions as needed
                 });
             });
         })
