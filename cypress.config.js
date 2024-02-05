@@ -6,6 +6,6 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     baseUrl: 'http://localhost:8080/parabank',
-    specPattern: 'cypress/integration/test/parabank*.js'
+    specPattern: 'cypress/ui-automation/test/parabank*.js'
   },
 });
