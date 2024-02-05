@@ -5,8 +5,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
-    // env: {"baseURL": "http://localhost:8080/parabank/services_proxy/bank/"},
+    baseUrl: 'http://localhost:8080/parabank',
     specPattern: 'cypress/integration/test/parabank*.js'
-
   },
 });

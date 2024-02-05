@@ -3,6 +3,7 @@
 let userName = '';
 let password =''
 let newAccountNumber = '';
+const baseUrl = Cypress.config().baseUrl;
 
 // Utility function to generate a random string
 const generateRandomString = (length) => {
@@ -17,12 +18,11 @@ describe('Parabank Test', () => {
             // Generate random username and password
             const randomString1 = generateRandomString(6);
             const randomString2 = generateRandomString(10);
-
             userName = `usr${randomString1}`;
             password = `pwd${randomString2}`;
 
             // Navigate to the registration page
-            cy.visit('http://localhost:8080/parabank/index.htm');
+            cy.visit(`${baseUrl}/index.htm`)
             cy.get('#loginPanel > :nth-child(3) > a').click();
 
             // Enter Registration Details
@@ -46,7 +46,7 @@ describe('Parabank Test', () => {
     describe('Login, Navigate Menus and Open New Account', () => {
         beforeEach(() => {
             // Common setup steps before each test case
-            cy.visit('http://localhost:8080/parabank/index.htm');
+            cy.visit(`${baseUrl}/index.htm`);
 
             cy.get(':nth-child(2) > .input').type(userName);
             cy.get(':nth-child(4) > .input').type(password);
@@ -192,7 +192,7 @@ describe('Parabank Test', () => {
             it('should get record of bill payment transaction by amount', () => {
                 cy.request({
                     method: 'GET',
-                    url: `http://localhost:8080/parabank/services_proxy/bank/accounts/${newAccountNumber}/transactions/amount/10`,
+                    url: `${baseUrl}/services_proxy/bank/accounts/${newAccountNumber}/transactions/amount/10`,
                 }).then((response) => {
                     console.log(response.body);
                     cy.log(response.body[0].accountId);
