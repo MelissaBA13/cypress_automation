@@ -14,26 +14,30 @@ const generateRandomString = (length) => {
 // Cypress test
 describe('Parabank Test', () => {
     describe('Register a new user', () => {
+        before(function () {
+            return cy.fixture('user').then((data) => {
+                globalThis.user = data;
+            });
+        });
         it('should be able to register with a random username and password', () => {
+
             // Generate random username and password
-            const randomString1 = generateRandomString(6);
-            const randomString2 = generateRandomString(10);
-            userName = `usr${randomString1}`;
-            password = `pwd${randomString2}`;
+            userName = `${globalThis.user.name}${generateRandomString(6)}`;
+            password = `${globalThis.user.password}${generateRandomString(6)}`;
 
             // Navigate to the registration page
             cy.visit(`${baseUrl}/index.htm`)
             cy.get('#loginPanel > :nth-child(3) > a').click();
 
             // Enter Registration Details
-            cy.get('input[name="customer.firstName"]').type(`name${randomString1}`);
-            cy.get('input[name="customer.lastName"]').type(`pwd${randomString2}`);
-            cy.get('input[name="customer.address.street').type('Collins Street');
-            cy.get('input[name="customer.address.city').type('Melbourne');
-            cy.get('input[name="customer.address.state').type('Victoria');
-            cy.get('input[name="customer.address.zipCode').type('1234');
-            cy.get('input[name="customer.phoneNumber').type('+61 12345678');
-            cy.get('input[name="customer.ssn').type('2345678');
+            cy.get('input[name="customer.firstName"]').type(`${userName}`);
+            cy.get('input[name="customer.lastName"]').type(`${globalThis.user.surname}${generateRandomString(6)}`);
+            cy.get('input[name="customer.address.street').type(`${globalThis.user.address_street}`);
+            cy.get('input[name="customer.address.city').type(`${globalThis.user.address_city}`);
+            cy.get('input[name="customer.address.state').type(`${globalThis.user.address_state}`);
+            cy.get('input[name="customer.address.zipCode').type(`${globalThis.user.address_zipcode}`);
+            cy.get('input[name="customer.phoneNumber').type(`${globalThis.user.phone_number}`);
+            cy.get('input[name="customer.ssn').type(`${globalThis.user.ssn}`);
             cy.get('input[name="customer.username').type(userName);
             cy.get('input[name="customer.password').type(password);
             cy.get('#repeatedPassword').type(password);

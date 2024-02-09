@@ -1,0 +1,12 @@
+{
+  "name": "User1Firstname",
+  "surname": "User1Lastname",
+  "address_street": "Collins",
+  "address_city": "Melbourne",
+  "address_state": "Victoria",
+  "address_zipcode": "1234",
+  "phone_number": "+61 12345678",
+  "ssn": "123456",
+  "username": "username",
+  "password": "password"
+}
