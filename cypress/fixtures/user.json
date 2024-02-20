@@ -1,12 +1,28 @@
-{
-  "name": "User1Firstname",
-  "surname": "User1Lastname",
-  "address_street": "Collins",
-  "address_city": "Melbourne",
-  "address_state": "Victoria",
-  "address_zipcode": "1234",
-  "phone_number": "+61 12345678",
-  "ssn": "123456",
-  "username": "username",
-  "password": "password"
-}
+[
+  {
+    "name": "John",
+    "surname": "Cruz",
+    "address_street": "Collins Street",
+    "address_city": "Melbourne",
+    "address_state": "Victoria",
+    "address_zipcode": "1234",
+    "phone_number": "+61 11234567",
+    "ssn": "111111",
+    "username": "John",
+    "password": "password"
+  },
+  {
+    "name": "Stephen",
+    "surname": "Richards",
+    "address_street": "Middle Road",
+    "address_city": "Melbourne",
+    "address_state": "Victoria",
+    "address_zipcode": "12345",
+    "phone_number": "+61 22123456",
+    "ssn": "22222",
+    "username": "Stephen",
+    "password": "password",
+    "account": "123-112-12345"
+  }
+]
+

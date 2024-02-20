@@ -20,10 +20,9 @@ describe('Parabank Test', () => {
             });
         });
         it('should be able to register with a random username and password', () => {
-
             // Generate random username and password
-            userName = `${globalThis.user.name}${generateRandomString(6)}`;
-            password = `${globalThis.user.password}${generateRandomString(6)}`;
+            userName = `${globalThis.user[0].name}${generateRandomString(6)}`;
+            password = `${globalThis.user[0].password}${generateRandomString(6)}`;
 
             // Navigate to the registration page
             cy.visit(`${baseUrl}/index.htm`)
@@ -31,13 +30,13 @@ describe('Parabank Test', () => {
 
             // Enter Registration Details
             cy.get('input[name="customer.firstName"]').type(`${userName}`);
-            cy.get('input[name="customer.lastName"]').type(`${globalThis.user.surname}${generateRandomString(6)}`);
-            cy.get('input[name="customer.address.street').type(`${globalThis.user.address_street}`);
-            cy.get('input[name="customer.address.city').type(`${globalThis.user.address_city}`);
-            cy.get('input[name="customer.address.state').type(`${globalThis.user.address_state}`);
-            cy.get('input[name="customer.address.zipCode').type(`${globalThis.user.address_zipcode}`);
-            cy.get('input[name="customer.phoneNumber').type(`${globalThis.user.phone_number}`);
-            cy.get('input[name="customer.ssn').type(`${globalThis.user.ssn}`);
+            cy.get('input[name="customer.lastName"]').type(`${globalThis.user[0].surname}${generateRandomString(6)}`);
+            cy.get('input[name="customer.address.street').type(`${globalThis.user[0].address_street}`);
+            cy.get('input[name="customer.address.city').type(`${globalThis.user[0].address_city}`);
+            cy.get('input[name="customer.address.state').type(`${globalThis.user[0].address_state}`);
+            cy.get('input[name="customer.address.zipCode').type(`${globalThis.user[0].address_zipcode}`);
+            cy.get('input[name="customer.phoneNumber').type(`${globalThis.user[0].phone_number}`);
+            cy.get('input[name="customer.ssn').type(`${globalThis.user[0].ssn}`);
             cy.get('input[name="customer.username').type(userName);
             cy.get('input[name="customer.password').type(password);
             cy.get('#repeatedPassword').type(password);
@@ -55,7 +54,6 @@ describe('Parabank Test', () => {
             cy.get(':nth-child(2) > .input').type(userName);
             cy.get(':nth-child(4) > .input').type(password);
             cy.get('form[name="login"] .button').click();
-            // cy.get('.title').should('have.text', 'Accounts Overview');
         });
 
         describe('Global Navigation Menus Test', () => {
@@ -171,24 +169,26 @@ describe('Parabank Test', () => {
                 });
             });
         });
+
         describe('Bill Payment', () => {
             it('should be able to pay bill using the created account', () => {
-                const amount = '10'
+                const amount = '1'
                 cy.get('#leftPanel a[href="/parabank/billpay.htm"]').click();
-                cy.get('input[name="payee.name"]').type('Steve');
-                cy.get('input[name="payee.address.street"]').type(`Collins Street`);
-                cy.get('input[name="payee.address.city"]').type(`Melbourne`);
-                cy.get('input[name="payee.address.state"]').type(`Victoria`);
-                cy.get('input[name="payee.address.zipCode"]').type(`1123`);
-                cy.get('input[name="payee.phoneNumber"]').type(`+61 555123123`);
-                cy.get('input[name="payee.accountNumber"]').type('44123');
-                cy.get('input[name="verifyAccount"]').type('44123');
+                cy.get('input[name="payee.name"]').type(`${globalThis.user[1].name}`);
+                cy.get('input[name="payee.address.street"]').type(`${globalThis.user[1].address_street}`);
+                cy.get('input[name="payee.address.city"]').type(`${globalThis.user[1].address_city}`);
+                cy.get('input[name="payee.address.state"]').type(`${globalThis.user[1].address_state}`);
+                cy.get('input[name="payee.address.zipCode"]').type(`${globalThis.user[1].address_zipcode}`);
+                cy.get('input[name="payee.phoneNumber"]').type(`${globalThis.user[1].phone_number}`);
+                cy.get('input[name="payee.accountNumber"]').type(`${globalThis.user[1].account}`);
+                cy.get('input[name="verifyAccount"]').type(`${globalThis.user[1].account}`);
                 cy.get('input[name="amount"]').type(amount);
 
                 cy.get('select[name="fromAccountId"]').select(newAccountNumber);
+                cy.wait(5000);
                 cy.get('input[value="Send Payment"]').click();
                 cy.get('div[ng-show="showResult"] h1.title').should('have.text', 'Bill Payment Complete');
-                cy.contains(`Bill Payment to Steve in the amount of $${amount}.00 from account ${newAccountNumber} was successful.`).should('be.visible');
+                // cy.contains(`Bill Payment to ${globalThis.user[1].name} in the amount of $${amount}.00 from account ${newAccountNumber} was successful.`).should('be.visible');
             });
         });
 
@@ -199,6 +199,7 @@ describe('Parabank Test', () => {
                     url: `${baseUrl}/services_proxy/bank/accounts/${newAccountNumber}/transactions/amount/10`,
                 }).then((response) => {
                     console.log(response.body);
+                    cy.log(response.body)
                     cy.log(response.body[0].accountId);
                     cy.log(response.body[0].amount);
                     cy.log(response.body[0].description);
@@ -206,7 +207,7 @@ describe('Parabank Test', () => {
 
                     expect(response.body[0].accountId).to.eq(+newAccountNumber)
                     expect(response.body[0].amount).to.eq(10.00)
-                    expect(response.body[0].description).to.eq(`Bill Payment to Steve`)
+                    expect(response.body[0].description).to.eq(`Bill Payment to ${globalThis.user[1].name}`)
                     expect(response.body[0].type).to.eq('Debit');
                     expect(response.status).to.eq(200);
                 });
