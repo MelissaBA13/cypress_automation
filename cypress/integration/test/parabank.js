@@ -3,7 +3,7 @@
 let userName = '';
 let password =''
 let newAccountNumber = '';
-const baseUrl = Cypress.config().baseUrl;
+
 
 // Utility function to generate a random string
 const generateRandomString = (length) => {
@@ -13,6 +13,7 @@ const generateRandomString = (length) => {
 
 // Cypress test
 describe('Parabank Test', () => {
+
     describe('Register a new user', () => {
         before(function () {
             return cy.fixture('user').then((data) => {
@@ -24,8 +25,8 @@ describe('Parabank Test', () => {
             userName = `${globalThis.user[0].name}${generateRandomString(6)}`;
             password = `${globalThis.user[0].password}${generateRandomString(6)}`;
 
-            // Navigate to the registration page
-            cy.visit(`${baseUrl}/index.htm`)
+            // Navigate to the registration
+            cy.visit(Cypress.env('baseUrl')+'/index.htm')
             cy.get('#loginPanel > :nth-child(3) > a').click();
 
             // Enter Registration Details
@@ -49,7 +50,8 @@ describe('Parabank Test', () => {
     describe('Login, Navigate Menus and Open New Account', () => {
         beforeEach(() => {
             // Common setup steps before each test case
-            cy.visit(`${baseUrl}/index.htm`);
+            cy.log(baseUrl)
+            cy.visit(Cypress.env('baseUrl')+'/index.htm');
 
             cy.get(':nth-child(2) > .input').type(userName);
             cy.get(':nth-child(4) > .input').type(password);

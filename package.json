@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules\\.bin\\cypress run",
+    "test": "cypress run",
     "headTest": "npm run test -- --headed",
     "chromeTest": "npm run test -- --browser chrome"
   },
   "private": true,
   "author": "Melissa Alpad",
   "license": "ISC",
-  "description": "",
+  "description": "Parabank web application Automation using Cypress",
   "devDependencies": {
     "cypress": "^13.6.3"
   },
